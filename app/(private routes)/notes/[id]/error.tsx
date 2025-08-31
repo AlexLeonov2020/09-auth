@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-export type Props = {
-  error: Error;
+type Props = {
+  error: { message: string };
 };
 
 export default function Error({ error }: Props) {

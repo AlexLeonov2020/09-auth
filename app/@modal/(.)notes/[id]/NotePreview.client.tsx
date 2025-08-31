@@ -1,11 +1,11 @@
-"use client";
-import { useRouter } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
-import { fetchNoteById } from "@/lib/api";
+'use client';
+import { useRouter } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
+import { fetchNoteById } from '@/lib/api/clientApi';
 
-import Modal from "@/components/Modal/Modal";
-import css from "./NotePreview.module.css";
+import Modal from '@/components/Modal/Modal';
+import css from './NotePreview.module.css';
 
 const NotePreview = () => {
   const router = useRouter();
@@ -18,7 +18,7 @@ const NotePreview = () => {
     isFetching,
     error,
   } = useQuery({
-    queryKey: ["note", id],
+    queryKey: ['note', id],
     queryFn: () => fetchNoteById(id),
     refetchOnMount: false,
   });

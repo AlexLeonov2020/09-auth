@@ -1,3 +1,4 @@
+
 'use client';
 
 import css from './NotesPage.module.css';
@@ -6,13 +7,13 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useDebounce } from 'use-debounce';
 
-import { fetchNotes } from '@/lib/api';
+import { fetchNotes } from '@/lib/api/clientApi';
 import NoteList from '@/components/NoteList/NoteList';
 
 import Pagination from '@/components/Pagination/Pagination';
 import SearchBox from '@/components/SearchBox/SearchBox';
 import Loader from '@/components/Loader/Loader';
-import ErrorMessage from '@/components/ErrorMassage/ErrorMessage';
+import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
 import { Toaster } from 'react-hot-toast';
 
 import Link from 'next/link';
@@ -28,8 +29,8 @@ export default function NotesClient({ tag }: NotesClientProps) {
   const [debouncedSearch] = useDebounce(search, 300);
 
   const { data, isLoading, isError, isSuccess } = useQuery({
-    queryKey: ['notes', debouncedSearch, page, tag],
-    queryFn: () => fetchNotes(debouncedSearch, page, tag),
+    queryKey: ['notes', page, debouncedSearch, tag],
+    queryFn: () => fetchNotes(page, debouncedSearch, tag ?? ''),
     placeholderData: keepPreviousData,
   });
 
@@ -47,7 +48,7 @@ export default function NotesClient({ tag }: NotesClientProps) {
       <Toaster />
       <header className={css.toolbar}>
         <SearchBox value={search} onSearch={handleSearch} />
-        {isSuccess && data?.totalPages > 1 && (
+        {totalPages > 1 && (
           <Pagination
             totalPages={totalPages}
             onPageChange={handlePageChange}
@@ -61,7 +62,7 @@ export default function NotesClient({ tag }: NotesClientProps) {
       </header>
       {isLoading && <Loader />}
       {isError && <ErrorMessage />}
-      {isSuccess && data.notes.length > 0 && <NoteList notes={data.notes} />}
+      {isSuccess && data && <NoteList notes={data.notes} />}
     </div>
   );
 }

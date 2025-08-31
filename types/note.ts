@@ -1,4 +1,4 @@
-import { FetchNotesRes } from "@/lib/api";
+import { FetchNotesRes } from "@/lib/api/clientApi";
 
 
 export interface Note {

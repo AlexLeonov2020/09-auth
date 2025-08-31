@@ -1,10 +1,10 @@
-import css from "./NoteList.module.css";
-import type { Note } from "@/types/note";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteNote } from "@/lib/api";
+import css from './NoteList.module.css';
+import type { Note } from '@/types/note';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { deleteNote } from '@/lib/api/clientApi';
 
-import toast from "react-hot-toast";
-import Link from "next/link";
+import toast from 'react-hot-toast';
+import Link from 'next/link';
 
 interface NoteListProps {
   notes: Note[];
@@ -17,11 +17,11 @@ export default function NoteList({ notes }: NoteListProps) {
     mutationFn: deleteNote,
 
     onSuccess: () => {
-      toast.success("Note deleted successfully!");
-      queryClient.invalidateQueries({ queryKey: ["notes"] });
+      toast.success('Note deleted successfully!');
+      queryClient.invalidateQueries({ queryKey: ['notes'] });
     },
     onError: () => {
-      toast.error("Something went wrong...Try again, please");
+      toast.error('Something went wrong...Try again, please');
     },
   });
 
@@ -40,8 +40,12 @@ export default function NoteList({ notes }: NoteListProps) {
             <Link href={`/notes/${note.id}`} className={css.link}>
               View Details
             </Link>
-            <button className={css.button} onClick={() => handleDel(note.id)}>
-              Delete
+            <button
+              className={css.button}
+              onClick={() => handleDel(note.id)}
+              disabled={delMutation.isPending}
+            >
+              {delMutation.isPending ? 'Deleting...' : 'Delete'}
             </button>
           </div>
         </li>
