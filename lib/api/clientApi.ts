@@ -48,9 +48,10 @@ export async function fetchNotes(
     });
 
     return response.data;
-  } catch (error) {
-    toast.error('Something went wrong...Try again, please');
-  }
+  } catch {
+  toast.error('Something went wrong...Try again, please');
+}
+
 }
 
 export async function createNote({
@@ -66,18 +67,20 @@ export async function createNote({
     };
     const response = await nextServer.post<Note>('/notes', params);
     return response.data;
-  } catch (error) {
-    toast.error('Something went wrong...Try again, please');
-  }
+  } catch {
+  toast.error('Something went wrong...Try again, please');
+}
+
 }
 
 export async function deleteNote(id: string): Promise<Note | undefined> {
   try {
     const response = await nextServer.delete<Note>(`notes/${id}`);
     return response.data;
-  } catch (error) {
-    toast.error('Something went wrong...Try again, please');
-  }
+  } catch {
+  toast.error('Something went wrong...Try again, please');
+}
+
 }
 
 export async function fetchNoteById(id: string): Promise<Note | undefined> {

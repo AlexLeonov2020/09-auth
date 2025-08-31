@@ -40,12 +40,8 @@ export default function NoteList({ notes }: NoteListProps) {
             <Link href={`/notes/${note.id}`} className={css.link}>
               View Details
             </Link>
-            <button
-              className={css.button}
-              onClick={() => handleDel(note.id)}
-              disabled={delMutation.isPending}
-            >
-              {delMutation.isPending ? 'Deleting...' : 'Delete'}
+            <button className={css.button} onClick={() => handleDel(note.id)}>
+              Delete
             </button>
           </div>
         </li>
